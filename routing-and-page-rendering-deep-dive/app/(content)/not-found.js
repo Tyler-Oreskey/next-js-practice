@@ -1,8 +1,8 @@
-export default function NotFound() {
-    return (
-        <div id="error">
-            <h1>404 - Item Not Found</h1>
-            <p>Sorry, the item you are looking for does not exist.</p>
-        </div>
-    );
+export default function NotFoundPage() {
+  return (
+    <div id="error">
+      <h1>Not Found!</h1>
+      <p>The requested resource could not be found!</p>
+    </div>
+  );
 }

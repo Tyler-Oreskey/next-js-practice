@@ -1,3 +1,3 @@
 export default function ArchiveLoading() {
-    return <p>Loading archive...</p>;
+  return <p>Loading...</p>;
 }

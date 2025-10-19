@@ -1,5 +1,5 @@
 {
-  "name": "routing-rendering",
+  "name": "data-fetching",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "better-sqlite3": "^12.4.1",
+    "better-sqlite3": "^9.4.3",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18"
