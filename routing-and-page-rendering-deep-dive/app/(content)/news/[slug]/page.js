@@ -3,22 +3,6 @@ import Link from 'next/link';
 
 import { getNewsItem } from '@/lib/news';
 
-export async function generateMetadata({ params }) {
-  const newsSlug = params.slug;
-  const newsItem = await getNewsItem(newsSlug);
-
-  if (!newsItem) {
-    return {
-      title: 'News Item Not Found',
-    };
-  }
-
-  return {
-    title: newsItem.title,
-    description: `Read the latest news: ${newsItem.title}`,
-  };
-}
-
 export default async function NewsDetailPage({ params }) {
   const newsSlug = params.slug;
   const newsItem = await getNewsItem(newsSlug)
