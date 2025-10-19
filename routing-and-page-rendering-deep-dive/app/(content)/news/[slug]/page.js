@@ -3,9 +3,25 @@ import Link from 'next/link';
 
 import { getNewsItem } from '@/lib/news';
 
-export default async function NewsDetailPage({ params }) {
+export async function generateMetadata({ params }) {
   const newsSlug = params.slug;
-  const newsItem = await getNewsItem(newsSlug)
+  const newsItem = getNewsItem(newsSlug);
+
+  if (!newsItem) {
+    return {
+      title: 'News Item Not Found',
+    };
+  }
+
+  return {
+    title: newsItem.title,
+    description: newsItem.content,
+  };
+}
+
+export default function NewsDetailPage({ params }) {
+  const newsSlug = params.slug;
+  const newsItem = getNewsItem(newsSlug)
 
   if (!newsItem) {
     notFound();

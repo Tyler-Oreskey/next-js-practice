@@ -9,8 +9,8 @@ import {
   getNewsForYearAndMonth,
 } from '@/lib/news';
 
-async function FilterHeader({ year, month }) {
-  const availableYears = await getAvailableNewsYears();
+function FilterHeader({ year, month }) {
+  const availableYears = getAvailableNewsYears();
   let links = availableYears;
 
   if (
@@ -53,9 +53,9 @@ async function FilteredNews({ year, month }) {
   let news;
 
   if (year && !month) {
-    news = await getNewsForYear(year);
+    news = getNewsForYear(year);
   } else if (year && month) {
-    news = await getNewsForYearAndMonth(year, month);
+    news = getNewsForYearAndMonth(year, month);
   }
 
   let newsContent = <p>No news found for the selected period.</p>;
@@ -75,8 +75,8 @@ export default async function FilteredNewsPage({ params }) {
 
   return (
     <>
-      {/* <Suspense fallback={<p>Loading filter...</p>}>
-      </Suspense> */}
+      <Suspense fallback={<p>Loading filter...</p>}>
+      </Suspense>
       <Suspense fallback={<p>Loading news...</p>}>
         <FilterHeader year={selectedYear} month={selectedMonth} />
         <FilteredNews year={selectedYear} month={selectedMonth} />
