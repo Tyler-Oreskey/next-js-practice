@@ -3,8 +3,7 @@ import { getNewsItem } from '@/lib/news';
 
 // this page displays the fullscreen image normally and gets intercepted when opened as a modal
 export default async function ImagePage({ params }) {
-    const { id } = params;
-    const newsItem = await getNewsItem(id);
+    const newsItem = await getNewsItem(params.id);
 
     if (!newsItem) {
         notFound();

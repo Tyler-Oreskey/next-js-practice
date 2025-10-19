@@ -1,22 +1,15 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { getAvailableNewsMonths, getAvailableNewsYears, getNewsForYear, getNewsForYearAndMonth } from "@/lib/news";
 import NewsList from "@/components/news-list";
 
-export default async function FilteredNewsPage({ params }) {
-    const { filter } = params;
-    const selectedYear = filter?.[0];
-    const selectedMonth = filter?.[1];
+async function FilteredNews({ selectedYear, selectedMonth }) {
     let news;
-    let links = await getAvailableNewsYears();
 
     if (selectedYear && !selectedMonth) {
         news = await getNewsForYear(selectedYear);
-        links = getAvailableNewsMonths(selectedYear)
-    }
-
-    if (selectedYear && selectedMonth) {
+    } else if (selectedYear && selectedMonth) {
         news = await getNewsForYearAndMonth(selectedYear, selectedMonth);
-        links = [];
     }
 
     let newsContent = <p>No news found for selected period.</p>
@@ -25,7 +18,12 @@ export default async function FilteredNewsPage({ params }) {
         newsContent = <NewsList news={news} />;
     }
 
+    return newsContent;
+}
+
+async function FilterHeader({ selectedYear, selectedMonth }) {
     const availableYears = await getAvailableNewsYears();
+    let links = availableYears;
 
     if (selectedYear && !availableYears.includes(selectedYear) ||
         selectedMonth && !getAvailableNewsMonths(selectedYear).includes(selectedMonth)
@@ -33,7 +31,15 @@ export default async function FilteredNewsPage({ params }) {
         throw new Error('Invalid filter!');
     }
 
-    return <>
+    if (selectedYear && !selectedMonth) {
+        links = getAvailableNewsMonths(selectedYear)
+    }
+
+    if (selectedYear && selectedMonth) {
+        links = [];
+    }
+
+    return (
         <header id="archive-header">
             <nav>
                 <ul>
@@ -51,6 +57,20 @@ export default async function FilteredNewsPage({ params }) {
                 </ul>
             </nav>
         </header>
-        {newsContent}
+    )
+}
+
+export default async function FilteredNewsPage({ params }) {
+    const { filter } = params;
+    const selectedYear = filter?.[0];
+    const selectedMonth = filter?.[1];
+
+    return <>
+        <Suspense fallback={<p>Loading header...</p>}>
+            <FilterHeader selectedYear={selectedYear} selectedMonth={selectedMonth} />
+        </Suspense>
+        <Suspense fallback={<p>Loading news...</p>}>
+            <FilteredNews selectedYear={selectedYear} selectedMonth={selectedMonth} />
+        </Suspense>
     </>
 }

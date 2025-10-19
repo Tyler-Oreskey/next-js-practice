@@ -5,8 +5,7 @@ import ModalBackdrop from '@/components/modal-backdrop';
 
 // this will intercept the /image route when opened as a modal
 export default async function InterceptedImagePage({ params }) {
-    const { id } = params;
-    const newsItem = await getNewsItem(id);
+    const newsItem = await getNewsItem(params.id);
 
     if (!newsItem) {
         notFound();
