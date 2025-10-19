@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
-import { DUMMY_NEWS } from '@/dummy-news';
+import { getNewsItem } from '@/lib/news';
 
 // this page displays the fullscreen image normally and gets intercepted when opened as a modal
-export default function ImagePage({ params }) {
+export default async function ImagePage({ params }) {
     const { id } = params;
-    const newsItem = DUMMY_NEWS.find(item => item.slug === id);
+    const newsItem = await getNewsItem(id);
 
     if (!newsItem) {
         notFound();

@@ -1,25 +1,11 @@
 import Link from "next/link";
 
 import { notFound } from "next/navigation";
-import { DUMMY_NEWS } from "@/dummy-news";
+import { getNewsItem } from "@/lib/news";
 
-export async function generateMetadata({ params }) {
+export default async function NewsItem({ params }) {
     const { id } = params;
-    const newsItem = DUMMY_NEWS.find(item => item.slug === id);
-
-    if (!newsItem) {
-        notFound();
-    }
-
-    return {
-        title: newsItem.title,
-        description: newsItem.content,
-    };
-}
-
-export default function NewsItem({ params }) {
-    const { id } = params;
-    const newsItem = DUMMY_NEWS.find(item => item.slug === id);
+    const newsItem = await getNewsItem(id);
 
     if (!newsItem) {
         notFound();
